@@ -1,0 +1,12 @@
+node_modules
+dist
+.vite
+.DS_Store
+*.log
+
+# regen merge-anchor scratch files (transient)
+*.dfy.base
+*.dfy.merged
+
+# NOTE: src/core.dfy and src/core.dfy.gen are intentionally tracked — CI
+# regenerates and diff-checks them (see LemmaScript-files.txt).

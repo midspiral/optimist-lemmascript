@@ -1,0 +1,28 @@
+name: LemmaScript
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    uses: midspiral/LemmaScript/.github/workflows/verify.yml@main
+    with:
+      backend: dafny
+
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - run: npm ci
+      - name: Typecheck (core + shell + tests)
+        run: npm run typecheck
+      - name: Runtime smoke test of the verified core
+        run: npm test
+      - name: Build the playground
+        run: npm run build
