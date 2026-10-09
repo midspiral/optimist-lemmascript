@@ -125,26 +125,26 @@ than an `Inv(s)`:
 ## 5. Architecture
 
 ```
-┌──────────────────────────── unverified shell (browser) ─────────────────────────────┐
+┌──────────────────────────── unverified shell (browser) ──────────────────────────────┐
 │  src/syntax.ts     parse: string → Expr          pretty: Expr → string, listing      │
-│  src/App.tsx       chips · editor · 5 stage cards · verdict bar · theorem panel     │
+│  src/App.tsx       chips · editor · 5 stage cards · verdict bar · theorem panel      │
 │                    VM trace = run(code[0..k], [], []) for k = 0..n  (no 2nd machine) │
-└───────────────────────────────┬─────────────────────────────────────────────────────┘
+└───────────────────────────────┬──────────────────────────────────────────────────────┘
                                 │ imports directly, no adapter
-┌───────────────────────────────▼──────────── verified core: src/core.ts ─────────────┐
-│                                                                                     │
-│   Expr ──typeOf──▶ TyResult        T1: Typed(t) ⇒ evaluate is a t-value or DivByZero│
+┌───────────────────────────────▼──────────── verified core: src/core.ts ──────────────┐
+│                                                                                      │
+│   Expr ──typeOf──▶ TyResult        T1: Typed(t) ⇒ evaluate is a t-value or DivByZero │
 │    │                                                                                 │
-│    ├──evaluate──▶ Result           the specification everything is measured against │
+│    ├──evaluate──▶ Result           the specification everything is measured against  │
 │    │                                                                                 │
 │    ├──optimize──▶ Expr             T2: evaluate ∘ optimize = evaluate  (well-typed)  │
 │    │     │   ↳ simplifyBin / simplifyIf   (folding, identities, guarded annihilation)│
 │    │     ↳ optimizeNaive               the foil — refuted, not proven                │
 │    │                                                                                 │
 │    └──compile──▶ Instr[] ──run──▶ Outcome      T3: run ∘ compile = evaluate (all e)  │
-│                                                                                     │
+│                                                                                      │
 │   runPipeline = typeOf ▷ optimize ▷ compile ▷ run     T4: = evaluate  (well-typed)   │
-└─────────────────────────────────────────────────────────────────────────────────────┘
+└──────────────────────────────────────────────────────────────────────────────────────┘
                                 │ lsc gen
                      src/core.dfy.gen  ──(additions only)──▶  src/core.dfy  ──▶ dafny verify
 ```
